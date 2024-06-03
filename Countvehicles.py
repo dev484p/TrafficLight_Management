@@ -15,6 +15,10 @@ def give_count(videopath,xl1=282,xl2=1004,y=308):
     # y=308
 
     cap=cv2.VideoCapture(videopath)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    out = cv2.VideoWriter('CountCars.mp4', cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), fps, (frame_width, frame_height))
     down={}
     down_car={}
     down_bike={}
@@ -27,7 +31,7 @@ def give_count(videopath,xl1=282,xl2=1004,y=308):
     truck_down=set()
     bus_down=set()
 
-    while cap.isOpened():    
+    while True:    
         ret,frame = cap.read()
         if not ret:
             break
@@ -104,9 +108,12 @@ def give_count(videopath,xl1=282,xl2=1004,y=308):
         cv2.putText(frame,('bike down - ')+ str(downwards_bike),(60,80),cv2.FONT_HERSHEY_DUPLEX, 0.5, red_color, 1, cv2.LINE_AA)
         cv2.putText(frame,('bus down - ')+ str(downwards_bus),(60,100),cv2.FONT_HERSHEY_DUPLEX, 0.5, red_color, 1, cv2.LINE_AA) 
         cv2.putText(frame,('truck down - ')+ str(downwards_truck),(60,120),cv2.FONT_HERSHEY_DUPLEX, 0.5, red_color, 1, cv2.LINE_AA)
-
+        
+        out.write(frame)
+    cap.release()
+    out.release()
     cap.release()
 
-    print(len(car_down))
-    print(len(bike_down))
+    print("Car COUNT ==",len(car_down))
+    print("Bike COUNT ==",len(bike_down))
     
