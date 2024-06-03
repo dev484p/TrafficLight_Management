@@ -109,9 +109,8 @@ def give_count(videopath,xl1=282,xl2=1004,y=308):
         cv2.putText(frame,('bus down - ')+ str(downwards_bus),(60,100),cv2.FONT_HERSHEY_DUPLEX, 0.5, red_color, 1, cv2.LINE_AA) 
         cv2.putText(frame,('truck down - ')+ str(downwards_truck),(60,120),cv2.FONT_HERSHEY_DUPLEX, 0.5, red_color, 1, cv2.LINE_AA)
         
-        out.write(frame)
-    cap.release()
-    out.release()
+        # out.write(frame)
+    # out.release()
     cap.release()
 
     print("Car COUNT ==",len(car_down))
