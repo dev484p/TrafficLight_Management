@@ -9,7 +9,16 @@ def give_count(videopath,xl1=282,xl2=1004,y=308):
     class_list = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush']
     tracker=Tracker()
 
+    # Coordinates of Line
+    # xl1=282
+    # xl2=1004
+    # y=308
+
     cap=cv2.VideoCapture(videopath)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    out = cv2.VideoWriter('CountCars.mp4', cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), fps, (frame_width, frame_height))
     down={}
     down_car={}
     down_bike={}
@@ -100,6 +109,8 @@ def give_count(videopath,xl1=282,xl2=1004,y=308):
         cv2.putText(frame,('bus down - ')+ str(downwards_bus),(60,100),cv2.FONT_HERSHEY_DUPLEX, 0.5, red_color, 1, cv2.LINE_AA) 
         cv2.putText(frame,('truck down - ')+ str(downwards_truck),(60,120),cv2.FONT_HERSHEY_DUPLEX, 0.5, red_color, 1, cv2.LINE_AA)
         
+        out.write(frame)
+    out.release()
     cap.release()
     opt_list=[len(car_down),len(bike_down),len(bus_down),len(truck_down)]
     return opt_list
